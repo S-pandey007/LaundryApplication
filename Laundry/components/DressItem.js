@@ -1,7 +1,17 @@
 import { View, Text, Pressable ,Image} from 'react-native'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
+import { addToCart } from '../redux/cartReducer'
+import { increaseQty } from '../redux/productReducer' 
 const DressItem = ({item}) => {
+  const cart = useSelector((state) => state.cart.cart)
+  const dispatch = useDispatch();
+  const addItemToCart = () => {
+    dispatch(addToCart(item)) // cart
+    dispatch(increaseQty(item)) // product
+  }
   return (
     <View>
       <Pressable
@@ -34,14 +44,79 @@ const DressItem = ({item}) => {
             >${item.price}</Text>
         </View>
 
-        <Pressable style={{width:80}}>
+        {
+          cart.some((c)=>c.id===item.id) ?(
+              <Pressable 
+               style={{
+                flexDirection:'row',
+                paddingHorizontal:10,
+                paddingVertical:5,
+               }}
+              >
+
+                <Pressable
+                  style={{
+                    width:26,
+                    height:26,
+                    borderRadius:13,
+                    backgroundColor:'#FF2C2C',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    borderColor:'white'
+                  }}
+                >
+                  <Text 
+                  style={{
+                      color:'white',
+                      fontSize:20,
+                      fontWeight:'bold'
+                  }}
+                  >-</Text>
+                </Pressable>
+
+                <Pressable>
+                  <Text
+                    style={{
+                      fontSize:19,
+                      color:'#FF2C2C',
+                      fontWeight:'bold',
+                      marginHorizontal:10
+                    }}
+                  >{item.quntity}</Text>
+                </Pressable>
+
+                <Pressable
+                  style={{
+                    width:26,
+                    height:26,
+                    borderRadius:13,
+                    backgroundColor:'#FF2C2C',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    borderColor:'white'
+
+                  }}
+                >
+                  <Text
+                    style={{
+                      color:'white',
+                      fontSize:20,
+                      fontWeight:'bold',
+                      paddingHorizontal:6
+                    }}
+                  >+</Text>
+                </Pressable>
+
+              </Pressable>
+          ):(
+            <Pressable style={{width:80}} onPress={addItemToCart}>
             <Text 
             style={{
-                borderColor:'gray',
+                borderColor:'#FF2C2C',
                 borderRadius:4,
                 borderWidth:0.8,
                 marginVertical:10,
-                color:'#08bfbf',
+                color:'#FF2C2C',
                 textAlign:'center',
                 padding:5,
                 fontSize:17,
@@ -49,6 +124,9 @@ const DressItem = ({item}) => {
             }}
             >Add +</Text>
         </Pressable>
+          )
+        }
+        
       </Pressable>
     </View>
   )

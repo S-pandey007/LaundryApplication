@@ -6,6 +6,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Crousel from '../components/carousel';
 import Services from '../components/services';
 import DressItem from '../components/DressItem';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 const HomeScreen = () => {
     const [location, setLocation] = useState("We are loading your location");
     const [loading, setLoading] = useState(true);
@@ -112,6 +114,19 @@ const HomeScreen = () => {
         },
       ];
 
+      const cart = useSelector((state)=>state.cart.cart)
+      const product = useSelector((state)=>state.product.products)
+      const dispatch = useDispatch()
+      useEffect(()=>{
+        if(product.length>0) return;
+
+        const fetchProducts = ()=>{
+            services.map((item)=>{
+                dispatch(getProducts(item))
+            })
+        }
+      })
+
     return (
         <ScrollView style={{ flex: 1, backgroundColor: '#f0f0f0',marginTop:50 }}>
             {/* Header */}
@@ -129,7 +144,7 @@ const HomeScreen = () => {
             {/* Search Bar */}
             <View style={styles.searchView}>
                 <TextInput style={{ padding: 3 }} placeholder="Search for items or more" />
-                <FontAwesome name="search" size={20} color="black" />
+                <FontAwesome name="search" size={20} color="#FF2C2C" />
             </View>
 
             {/* Carousel */}
