@@ -1,44 +1,51 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const CartSlice = createSlice({
-    name:'cart',
-    initialState:{
-        cart:[]
+    name: 'cart',
+    initialState: {
+        cart: [],
     },
 
-    reducers:{
-        addToCart:(state,action)=>{
-            const itemPresent = state.cart.find((item)=>item.id===action.payload.id)
-            if(itemPresent){
-                itemPresent.quantity++
-            }else{
-                state.cart.push({...action.payload,quantity:1})
+    reducers: {
+        addToCart: (state, action) => {
+            if (!Array.isArray(state.cart)) state.cart = [];
+            const itemPresent = state.cart.find((item) => item.id === action.payload.id);
+            if (itemPresent) {
+                itemPresent.quantity++;
+            } else if (action.payload && action.payload.id) {
+                state.cart.push({ ...action.payload, quantity: 1 });
+            } else {
+                console.error('Invalid item payload for addToCart:', action.payload);
             }
         },
 
-        removeFromCart:(state,action)=>{
-            const removeItem = state.cart.filter((item)=>item.id!==action.payload.id)
-            state.cart = removeItem;
+        removeFromCart: (state, action) => {
+            state.cart = state.cart.filter((item) => item.id !== action.payload.id);
         },
 
-        increaseQuntity:(state,action)=>{
-            const itemPresent = state.cart.find((item)=>item.id===action.payload.id)
-            itemPresent.quantity++
-        },
-
-        decreaseQuntity:(state,action)=>{
-            const itemPresent = state.cart.find((item)=>item.id===action.payload.id)
-            if(itemPresent.quantity==1){
-                itemPresent.quantity=0
-                const removeItem = state.cart.filter((item)=>item.id!==action.payload.id)
-                state.cart = removeItem;
-            }else{
-                itemPresent.quantity--
+        increaseQuantity: (state, action) => {
+            const itemPresent = state.cart.find((item) => item.id === action.payload.id);
+            if (itemPresent) {
+                itemPresent.quantity++;
+            } else {
+                console.error('Item not found for increasing quantity:', action.payload.id);
             }
-        }
-    }
-})
+        },
 
+        decreaseQuantity: (state, action) => {
+            const itemPresent = state.cart.find((item) => item.id === action.payload.id);
+            if (itemPresent) {
+                if (itemPresent.quantity === 1) {
+                    state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+                } else {
+                    itemPresent.quantity--;
+                }
+            } else {
+                console.error('Item not found for decreasing quantity:', action.payload.id);
+            }
+        },
+    },
+});
 
-export const {addToCart,removeFromCart,increaseQuntity,decreaseQuntity} = CartSlice.actions
-export default CartSlice.reducer
+export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = CartSlice.actions;
+export default CartSlice.reducer;

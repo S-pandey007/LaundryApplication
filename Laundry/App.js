@@ -1,15 +1,12 @@
-// import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
+import React from 'react';
+import { StyleSheet } from 'react-native'; // Removed SafeAreaView
+import StackNavigation from './StackNavigation';
+import { StatusBar } from 'expo-status-bar';
+
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <HomeScreen/>
-      {/* <StatusBar barStyle={statusBarStyle} /> */}
-    </SafeAreaView>
-  );
-}
-
+    <><StackNavigation /><StatusBar style='auto' /></>
+)}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

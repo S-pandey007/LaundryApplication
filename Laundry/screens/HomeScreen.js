@@ -128,7 +128,7 @@ const HomeScreen = () => {
       })
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#f0f0f0',marginTop:50 }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#f0f0f0',marginTop:30 }}>
             {/* Header */}
             <View style={styles.HeadView}>
                 <Entypo name="location-pin" size={30} color="#FF2C2C" />
