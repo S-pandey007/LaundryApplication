@@ -27,94 +27,35 @@ const CartScreen = () => {
           </View>
         ) : (
           <>
-            <View
-              style={{
-                padding: 10,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
+            <View style={styles.header}>
               <Ionicons
                 onPress={() => navigation.navigate("Home")}
                 name="arrow-back"
                 size={24}
                 color="black"
               />
-              <Text>Your Bucket</Text>
+              <Text style={styles.headerText}>Your Bucket</Text>
             </View>
 
-            <Pressable
-              style={{
-                backgroundColor: "white",
-                borderRadius: 12,
-                marginLeft: 10,
-                marginRight: 10,
-                padding: 14,
-              }}
-            >
+            <Pressable style={styles.cartContainer}>
               {cart.map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginVertical: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      width: 100,
-                      fontSize: 16,
-                      fontWeight: "500",
-                    }}
-                  >
-                    {item.name}
-                  </Text>
+                <View key={index} style={styles.cartItem}>
+                  <Text style={styles.itemName}>{item.name}</Text>
 
                   {/* -+ button */}
-                  <Pressable
-                    style={{
-                      flexDirection: "row",
-                      paddingHorizontal: 10,
-                      paddingVertical: 5,
-                    }}
-                  >
+                  <Pressable style={styles.quantityContainer}>
                     <Pressable
                       onPress={() => {
                         dispatch(decreaseQuantity(item));
                         dispatch(decreaseQty(item));
                       }}
-                      style={{
-                        width: 26,
-                        height: 26,
-                        borderRadius: 13,
-                        backgroundColor: "#FF2C2C",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderColor: "white",
-                      }}
+                      style={styles.quantityButton}
                     >
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 20,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        -
-                      </Text>
+                      <Text style={styles.quantityButtonText}>-</Text>
                     </Pressable>
 
                     <Pressable>
-                      <Text
-                        style={{
-                          fontSize: 19,
-                          color: "#FF2C2C",
-                          fontWeight: "bold",
-                          marginHorizontal: 10,
-                        }}
-                      >
+                      <Text style={styles.quantityText}>
                         {cart.find((c) => c.id === item.id)?.quantity || 0}
                       </Text>
                     </Pressable>
@@ -124,36 +65,13 @@ const CartScreen = () => {
                         dispatch(increaseQuantity(item));
                         dispatch(increaseQty(item));
                       }}
-                      style={{
-                        width: 26,
-                        height: 26,
-                        borderRadius: 13,
-                        backgroundColor: "#FF2C2C",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderColor: "white",
-                      }}
+                      style={styles.quantityButton}
                     >
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 20,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        +
-                      </Text>
+                      <Text style={styles.quantityButtonText}>+</Text>
                     </Pressable>
                   </Pressable>
 
-                  <Text
-                    style={{
-                      width: 100,
-                      fontSize: 16,
-                      fontWeight: "500",
-                      left: "20%",
-                    }}
-                  >
+                  <Text style={styles.itemPrice}>
                     $ {item.price * item.quantity}
                   </Text>
                 </View>
@@ -163,42 +81,12 @@ const CartScreen = () => {
             {/* Billing details */}
 
             <View style={{ marginHorizontal: 10 }}>
-              <Text style={{ marginTop: 30, fontSize: 14, fontWeight: "bold" }}>
-                Billing Details
-              </Text>
+              <Text style={styles.billingTitle}>Billing Details</Text>
 
-              <View
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: 7,
-                  padding: 10,
-                  marginTop: 15,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                      color: "gray",
-                    }}
-                  >
-                    Item Total
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                    }}
-                  >
-                    ${total}
-                  </Text>
+              <View style={styles.billingContainer}>
+                <View style={styles.billingRow}>
+                  <Text style={styles.billingText}>Item Total</Text>
+                  <Text style={styles.billingText}>${total}</Text>
                 </View>
 
                 <View style={styles.deliveryFeeContainer}>
@@ -212,101 +100,26 @@ const CartScreen = () => {
 
                 <View style={styles.separator} />
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginVertical: 10,
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
-                  >
-                    selected Date
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                      color: "gray",
-                    }}
-                  >
-                    Pic Date
-                  </Text>
+                <View style={styles.billingRow}>
+                  <Text style={styles.billingText}>selected Date</Text>
+                  <Text style={styles.billingText}>Pic Date</Text>
                 </View>
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
-                  >
-                    No Of Days
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                      color: "#088F8F",
-                    }}
-                  >
-                    {route.params.no_of_days}
-                  </Text>
+                <View style={styles.billingRow}>
+                  <Text style={styles.billingText}>No Of Days</Text>
+                  <Text style={styles.billingText}>{route.params.no_of_days}</Text>
                 </View>
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginVertical: 10,
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
-                  >
-                    selected Pick Up Time
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "400",
-                      color: "#088F8F",
-                    }}
-                  >
-                    {route.params.selectedTime}
-                  </Text>
+                <View style={styles.billingRow}>
+                  <Text style={styles.billingText}>selected Pick Up Time</Text>
+                  <Text style={styles.pickUpTimeText}>{route.params.selectedTime}</Text>
                 </View>
-                <View
-                  style={{
-                    borderColor: "gray",
-                    height: 1,
-                    borderWidth: 0.5,
-                    marginTop: 10,
-                  }}
-                />
 
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginVertical: 8,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    To Pay
-                  </Text>
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    {total + 95}
-                  </Text>
+                <View style={styles.separator} />
+
+                <View style={styles.billingRow}>
+                  <Text style={styles.totalText}>To Pay</Text>
+                  <Text style={styles.totalText}>{total + 95}</Text>
                 </View>
               </View>
             </View>
@@ -315,44 +128,18 @@ const CartScreen = () => {
       </ScrollView>
 
       {total === 0 ? null : (
-        <Pressable
-          style={{
-            backgroundColor: "rgba(255, 44, 44, 0.9)",
-            padding: 15,
-            marginBottom: 10,
-            marginTop: "auto",
-            margin: 10,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderRadius: 7,
-          }}
-        >
+        <Pressable style={styles.proceedButton}>
           <View>
-            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>
+            <Text style={styles.proceedButtonText}>
               {cart.length} items | Total: ${total}
             </Text>
-            <Text style={{ color: "#fff" }}>Extra charges might apply</Text>
+            <Text style={styles.extraChargesText}>Extra charges might apply</Text>
           </View>
           <Pressable
-            style={{
-              backgroundColor: "#FF2C2C",
-              padding: 10,
-              borderWidth: 2,
-              borderColor: "#fff",
-              borderRadius: 7,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 4,
-              elevation: 5,
-            }}
+            onPress={() => navigation.navigate("Checkout")}
+            style={styles.placeOrderButton}
           >
-            <Text
-              style={{ color: "#fff", fontWeight: "bold", textAlign: "right" }}
-            >
-              Place Order
-            </Text>
+            <Text style={styles.placeOrderButtonText}>Place Order</Text>
           </Pressable>
         </Pressable>
       )}
@@ -361,10 +148,86 @@ const CartScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+  header: {
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  cartContainer: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 14,
+  },
+  cartItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 10,
+  },
+  itemName: {
+    width: 100,
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  quantityContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  quantityButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: "#FF2C2C",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "white",
+  },
+  quantityButtonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  quantityText: {
+    fontSize: 19,
+    color: "#FF2C2C",
+    fontWeight: "bold",
+    marginHorizontal: 10,
+  },
+  itemPrice: {
+    width: 100,
+    fontSize: 16,
+    fontWeight: "500",
+    left: "20%",
+  },
+  billingTitle: {
+    marginTop: 30,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  billingContainer: {
+    backgroundColor: "white",
+    borderRadius: 7,
+    padding: 10,
+    marginTop: 15,
+  },
+  billingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 10,
+  },
+  billingText: {
+    fontSize: 18,
+    fontWeight: "400",
+    color: "gray",
   },
   deliveryFeeContainer: {
     flexDirection: 'row',
@@ -397,6 +260,51 @@ const styles = StyleSheet.create({
     height: 1,
     borderWidth: 0.5,
     marginVertical: 10,
+  },
+  pickUpTimeText: {
+    fontSize: 18,
+    fontWeight: "400",
+    color: "#088F8F",
+  },
+  totalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  proceedButton: {
+    backgroundColor: "rgba(255, 44, 44, 0.9)",
+    padding: 15,
+    marginBottom: 10,
+    marginTop: "auto",
+    margin: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 7,
+  },
+  proceedButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  extraChargesText: {
+    color: "#fff",
+  },
+  placeOrderButton: {
+    backgroundColor: "#FF2C2C",
+    padding: 10,
+    borderWidth: 2,
+    borderColor: "#fff",
+    borderRadius: 7,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  placeOrderButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "right",
   },
 });
 
