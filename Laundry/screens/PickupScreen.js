@@ -1,12 +1,14 @@
-import { View, Text, SafeAreaView, TextInput, ScrollView, Pressable } from "react-native";
+import { View, Text, SafeAreaView, TextInput, ScrollView, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
 import HorizontalDatepicker from "@awrminkhodaei/react-native-horizontal-datepicker";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 const PickupScreen = () => {
-    const cart = useSelector((state) => state.cart.cart);
+  const cart = useSelector((state) => state.cart.cart);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState(""); // Single selection
   const[delivery, setDelivery] = useState(""); // Single selection
+  const navigation = useNavigation()
   const total = cart
   .map((item) => item.price * item.quantity)
   .reduce((a, b) => a + b, 0);
@@ -26,6 +28,38 @@ const PickupScreen = () => {
     { id: "4", time: "3:00 PM" },
     { id: "5", time: "4:00 PM" },
   ];
+
+  const proceedToCart =()=>{
+    if(!selectedDate || !selectedTime || !delivery){
+      Alert.alert(
+        "Empty or invalid",
+        "Please select all the fields",
+        [
+          {
+            text:"Cancel",
+            onPress:()=> console.log("Cancel Pressed"),
+            style:'cancel'
+            
+          },
+          {
+            text:"OK",
+            onPress: ()=>console.log("OK Pressed")
+            
+          }          
+        ],
+        { cancelable: false }
+      )
+    }
+
+    if(selectedDate && selectedTime && delivery){
+      navigation.replace("Cart",{
+
+        selectedTime:selectedTime,
+        pickUpDate:selectedDate,
+        no_of_days:delivery,
+      })
+    }
+  }
 
   return (
     <>
@@ -103,6 +137,7 @@ const PickupScreen = () => {
                     backgroundColor: "rgba(255, 44, 44, 0.9)",
                     padding: 15,
                     marginBottom: 10,
+                    marginTop:'auto',
                     margin: 10,
                     flexDirection: "row",
                     alignItems: "center",
@@ -118,7 +153,7 @@ const PickupScreen = () => {
                   </View>
                   <Pressable
         
-                  onPress={() => navigation.navigate("Pickup")}
+                  onPress={proceedToCart}
                     style={{
                       backgroundColor: "#FF2C2C",
                       padding: 10,
@@ -135,7 +170,7 @@ const PickupScreen = () => {
                     <Text
                       style={{ color: "#fff", fontWeight: "bold", textAlign: "right" }}
                     >
-                      Proceed to checkout
+                      Proceed to Cart
                     </Text>
                   </Pressable>
                 </Pressable>
