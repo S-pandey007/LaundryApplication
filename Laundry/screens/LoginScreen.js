@@ -34,7 +34,7 @@ const LoginScreen = () => {
             <TextInput placeholder='Password' style={styles.input} secureTextEntry value={password} onChangeText={setPassword}/>
           </View>
         </View>
-        <Pressable style={styles.loginButton}>
+        <Pressable style={styles.loginButton} onPress={()=>navigation.navigate("Home")}>
           <Text style={styles.loginButtonText}>Login</Text>
         </Pressable>
         <View style={styles.footer}>

@@ -9,6 +9,7 @@ const PickupScreen = () => {
   const [selectedTime, setSelectedTime] = useState(""); // Single selection
   const[delivery, setDelivery] = useState(""); // Single selection
   const navigation = useNavigation()
+  const [height, setHeight] = useState(40);
   const total = cart
   .map((item) => item.price * item.quantity)
   .reduce((a, b) => a + b, 0);
@@ -66,13 +67,17 @@ const PickupScreen = () => {
     <SafeAreaView style={{ paddingTop: 30 }}>
       <Text style={{ fontSize: 16, fontWeight: "500", marginHorizontal: 10 }}>Enter Your Address</Text>
       <TextInput
+       multiline={true} // Enables multi-line input
+       onContentSizeChange={(event) =>
+         setHeight(event.nativeEvent.contentSize.height)
+       }
         style={{
-          paddingHorizontal: 10,
+          paddingHorizontal: 6,
           borderColor: "gray",
           borderWidth: 0.7,
-          paddingVertical: 50,
+          paddingVertical: 20,
           borderRadius: 9,
-          margin: 10,
+          margin: 5,
         }}
       />
       <Text style={{ fontSize: 16, fontWeight: "500", marginHorizontal: 10 }}>Pick Up Date</Text>
