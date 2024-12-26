@@ -33,29 +33,25 @@ The Laundry Application is developed using the latest technologies to ensure a s
 Here are some screenshots of the Laundry Application:
 
 ### Splash Screen
-![Splash Screen](./Laundry/screenshorts/splashscreen.jpg)
+<img src="./Laundry/screenshorts/splashscreen.jpg" alt="Splash Screen" width="200"/>
 
 ### Register
-![Register](./Laundry/screenshorts/Registor.jpg)
-
+<img src="./Laundry/screenshorts/Registor.jpg" alt="Register" width="200"/>
 
 ### Home Screen
-![Home Screen](./Laundry/screenshorts/Home.jpg)
-
+<img src="./Laundry/screenshorts/Home.jpg" alt="Home Screen" width="200"/>
 
 ### Pickup
-![Pickup](./Laundry/screenshorts/Pickup%20Detail.jpg)
+<img src="./Laundry/screenshorts/Pickup%20Detail.jpg" alt="Pickup" width="200"/>
 
 ### Profile
-![Profile](./Laundry/screenshorts/profile.jpg)
-
+<img src="./Laundry/screenshorts/profile.jpg" alt="Profile" width="200"/>
 
 ### Select Item
-![Select Item](./Laundry/screenshorts/selectItem.jpg)
-
+<img src="./Laundry/screenshorts/selectItem.jpg" alt="Select Item" width="200"/>
 
 ### Your Bucket
-![Your Bucket](./Laundry/screenshorts/your%20bucket.jpg)
+<img src="./Laundry/screenshorts/your%20bucket.jpg" alt="Your Bucket" width="200"/>
 
 ### Order Placed
-![Order Placed](./Laundry/screenshorts/orderplaced.jpg)
+<img src="./Laundry/screenshorts/orderplaced.jpg" alt="Order Placed" width="200"/>
