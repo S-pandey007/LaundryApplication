@@ -44,8 +44,12 @@ export const CartSlice = createSlice({
                 console.error('Item not found for decreasing quantity:', action.payload.id);
             }
         },
+
+        cleanCart:(state) => {
+            state.cart = [];
+        }
     },
 });
 
-export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = CartSlice.actions;
+export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity , cleanCart} = CartSlice.actions;
 export default CartSlice.reducer;

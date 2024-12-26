@@ -46,8 +46,7 @@ const LoginScreen = () => {
           <ActivityIndicator size="large" color="red"/>
         ):(
           <KeyboardAvoidingView
-        behavior={Platform.OS === "Android" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
+           style={styles.keyboardAvoidingView}
       >
         <View style={styles.header}>
           <Text style={styles.title}>Sign In</Text>

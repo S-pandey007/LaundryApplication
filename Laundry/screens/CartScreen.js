@@ -5,19 +5,45 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   addToCart,
+  cleanCart,
   decreaseQuantity,
   increaseQuantity,
 } from "../redux/cartReducer";
 import { decreaseQty, increaseQty } from "../redux/productReducer";
-
+import { auth } from "../firebase";
+import {doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 const CartScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const userUID = auth.currentUser.uid;
   const total = cart
     .map((item) => item.price * item.quantity)
     .reduce((a, b) => a + b, 0);
+
+    const placeOrder = async () => {
+      navigation.navigate("Order");
+      dispatch(cleanCart());
+    
+      // Ensure route.params has all necessary data before passing it to Firestore
+      const { pickUpDate, no_of_days, selectedTime } = route.params;
+    
+      await setDoc(
+        doc(db, "users", userUID),  // Ensure using doc() to define the correct path
+        {
+          orders: [...cart],  // Store cart items as an array
+          pickUpDetails: {
+            pickUpDate,         // Store pickup date
+            no_of_days,         // Store number of days
+            selectedTime,       // Store selected pickup time
+          },
+        },
+        { merge: true }  // Merge to avoid overwriting existing user data
+      );
+    };
+    
   return (
     <>
       <ScrollView style={{ marginTop: 20 }}>
@@ -29,7 +55,7 @@ const CartScreen = () => {
           <>
             <View style={styles.header}>
               <Ionicons
-                onPress={() => navigation.navigate("Home")}
+                onPress={() => navigation.goBack()}
                 name="arrow-back"
                 size={24}
                 color="black"
@@ -102,7 +128,7 @@ const CartScreen = () => {
 
                 <View style={styles.billingRow}>
                   <Text style={styles.billingText}>selected Date</Text>
-                  <Text style={styles.billingText}>Pic Date</Text>
+                  <Text style={styles.billingText}>{route.params.pickUpDate}</Text>
                 </View>
 
                 <View style={styles.billingRow}>
@@ -136,7 +162,7 @@ const CartScreen = () => {
             <Text style={styles.extraChargesText}>Extra charges might apply</Text>
           </View>
           <Pressable
-            onPress={() => navigation.navigate("Checkout")}
+            onPress={placeOrder}
             style={styles.placeOrderButton}
           >
             <Text style={styles.placeOrderButtonText}>Place Order</Text>
