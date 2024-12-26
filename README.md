@@ -28,3 +28,34 @@ The Laundry Application is developed using the latest technologies to ensure a s
 - **Firebase**: For authentication and real-time database.
 - **Stripe**: For secure payment processing.
 
+## Screenshots
+
+Here are some screenshots of the Laundry Application:
+
+### Splash Screen
+![Splash Screen](./Laundry/screenshorts/splashscreen.jpg)
+
+### Register
+![Register](./Laundry/screenshorts/Registor.jpg)
+
+
+### Home Screen
+![Home Screen](./Laundry/screenshorts/Home.jpg)
+
+
+### Pickup
+![Pickup](./Laundry/screenshorts/Pickup%20Detail.jpg)
+
+### Profile
+![Profile](./Laundry/screenshorts/profile.jpg)
+
+
+### Select Item
+![Select Item](./Laundry/screenshorts/selectItem.jpg)
+
+
+### Your Bucket
+![Your Bucket](./Laundry/screenshorts/your%20bucket.jpg)
+
+### Order Placed
+![Order Placed](./Laundry/screenshorts/orderplaced.jpg)
