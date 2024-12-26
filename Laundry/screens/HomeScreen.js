@@ -18,10 +18,13 @@ import DressItem from "../components/DressItem";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { collection, getDoc, getDocs } from "firebase/firestore";
+import { getProducts } from "../redux/productReducer";
 
 const HomeScreen = () => {
   const [location, setLocation] = useState("We are loading your location");
   const [loading, setLoading] = useState(true);
+  const [item , setItem] = useState([])
     const navigation = useNavigation();
   useEffect(() => {
     checkLocationPermission();
@@ -134,10 +137,15 @@ const HomeScreen = () => {
   useEffect(() => {
     if (product.length > 0) return;
 
-    const fetchProducts = () => {
-      services.map((item) => {
-        dispatch(getProducts(item));
-      });
+    const fetchProducts = async () => {
+      const colRef = collection(db,"types")
+      const docsSnap = await getDocs(colRef)
+
+      docsSnap.forEach((doc)=>{
+        item.push(doc.data())
+
+      })
+      item?.map((service)=>dispatch(getProducts(service)))
     };
   });
 
@@ -159,7 +167,7 @@ const HomeScreen = () => {
               {loading ? "Fetching location..." : location}
             </Text>
           </View>
-          <Pressable style={{ marginLeft: "auto", marginRight: 7 }}>
+          <Pressable onPress={()=> navigation.navigate("Profile")} style={{ marginLeft: "auto", marginRight: 7 }}>
             <Image
               style={styles.profileImage}
               source={{

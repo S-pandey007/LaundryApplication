@@ -1,16 +1,51 @@
-import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, TextInput, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import LottieView from 'lottie-react-native';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 const LoginScreen = () => {
   const navigation = useNavigation()
   const [email,setEmail] = useState("")
+  const [loading,setLoading] =useState(false)
   const [password,setPassword] = useState("")
+
+  //check user have in db or not
+
+  useEffect(() => {
+    setLoading(true)
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (!authUser) {
+        setLoading(false)
+      }
+      if (authUser) {
+        navigation.replace("Home");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const login = () =>{
+    signInWithEmailAndPassword(auth,email,password).then((userCredential)=>{
+      console.log("user credential",userCredential);
+      const user = userCredential.user
+      console.log("user details",user);  
+    }).catch((error) => {
+      Alert.alert("Login Error", error.message);
+    });
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
+      {
+        loading?(
+          <ActivityIndicator size="large" color="red"/>
+        ):(
+          <KeyboardAvoidingView
         behavior={Platform.OS === "Android" ? "padding" : "height"}
         style={styles.keyboardAvoidingView}
       >
@@ -34,7 +69,7 @@ const LoginScreen = () => {
             <TextInput placeholder='Password' style={styles.input} secureTextEntry value={password} onChangeText={setPassword}/>
           </View>
         </View>
-        <Pressable style={styles.loginButton} onPress={()=>navigation.navigate("Home")}>
+        <Pressable style={styles.loginButton} onPress={login}>
           <Text style={styles.loginButtonText}>Login</Text>
         </Pressable>
         <View style={styles.footer}>
@@ -44,6 +79,9 @@ const LoginScreen = () => {
           </Pressable>
         </View>
       </KeyboardAvoidingView>
+        )
+      }
+      
     </SafeAreaView>
   )
 }

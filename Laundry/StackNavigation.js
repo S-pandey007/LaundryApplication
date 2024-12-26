@@ -7,6 +7,7 @@ import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegistorScreen from './screens/RegisterScreen'
 import SplashScreen from './screens/SplashScreen'
+import ProfileScreen from './screens/ProfileScreen';
 const StackNavigation = () => {
   const Stack = createNativeStackNavigator();
 
@@ -15,10 +16,11 @@ const StackNavigation = () => {
       <Stack.Navigator>
         <Stack.Screen name='Splash' component={SplashScreen} options={{headerShown:false}}/>
         <Stack.Screen name='Login' component={LoginScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='Register' component={RegistorScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Pickup" component={PickupScreen} options={{headerShown:false}}/>
         <Stack.Screen name='Cart' component={CartScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='Register' component={RegistorScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='Profile' component={ProfileScreen} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

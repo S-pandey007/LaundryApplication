@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { setDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const RegisterScreen = () => {
@@ -32,6 +32,7 @@ const RegisterScreen = () => {
         ],
         {cancelable:false}
       )
+      return;
     }
 
     createUserWithEmailAndPassword(auth,email,password).then((userCredential)=>{
@@ -40,13 +41,14 @@ const RegisterScreen = () => {
       const myUserID = auth.currentUser.uid
 
       // name of collection is user 
-      setDoc(doc,(db,"users",`${myUserID}`),{
+      setDoc(doc(db,"users",`${myUserID}`),{
         name:name,
-        email:email,
+        email:user,
         phone:phone  
       })
-      
-    })
+    }).catch((error) => {
+      Alert.alert("Error", error.message);
+    });
 
   }
 
