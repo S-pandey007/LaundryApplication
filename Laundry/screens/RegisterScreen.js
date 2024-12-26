@@ -1,13 +1,54 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import { Fontisto, Entypo, Foundation } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name , setName] = useState()
+  const [phone , setPhone] = useState()
   const navigation = useNavigation();
+
+  // press register button FIREBASE code
+  const register = ()=>{
+    if(name==="" || email ==="" || password ==="" || phone===""){
+      Alert.alert(
+        "Invalid Details",
+        "Please fill all the details",
+        [
+          {
+            text:'Cancel',
+            onPress:()=> console.log("Cancel Pressed"),
+            style:'cancel'
+            
+          },
+          {text:"OK",onPress:()=> console.log("OK Pressd")}
+        ],
+        {cancelable:false}
+      )
+    }
+
+    createUserWithEmailAndPassword(auth,email,password).then((userCredential)=>{
+      console.log("User Credential",userCredential);
+      const user = userCredential._tokenResponse.email;
+      const myUserID = auth.currentUser.uid
+
+      // name of collection is user 
+      setDoc(doc,(db,"users",`${myUserID}`),{
+        name:name,
+        email:email,
+        phone:phone  
+      })
+      
+    })
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,7 +65,7 @@ const RegisterScreen = () => {
       <View style={styles.form}>
         <View style={styles.inputWrapper}>
           <Fontisto name="person" size={24} color="black" />
-          <TextInput placeholder='Enter name' style={styles.input} />
+          <TextInput placeholder='Enter name' style={styles.input} value={name} onChangeText={setName}/>
         </View>
         <View style={styles.inputWrapper}>
           <Fontisto name="email" size={24} color="black" />
@@ -36,11 +77,11 @@ const RegisterScreen = () => {
         </View>
         <View style={styles.inputWrapper}>
           <Foundation name="telephone" size={24} color="black" />
-          <TextInput placeholder='Phone number' style={styles.input} />
+          <TextInput placeholder='Phone number' style={styles.input} value={phone} onChangeText={setPhone}/>
         </View>
       </View>
 
-      <Pressable style={styles.registerButton}>
+      <Pressable style={styles.registerButton} onPress={register}>
         <Text style={styles.registerButtonText}>Register</Text>
       </Pressable>
 
